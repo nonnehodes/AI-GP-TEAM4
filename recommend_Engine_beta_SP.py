@@ -1,7 +1,7 @@
 import psycopg2, sys, json, os
 from progress.bar import Bar
 
-c = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="janneke", port="2020")
+c = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="password", port="2020")
 cursor = c.cursor()
 cursor.execute( "SELECT name FROM products;" )
 relatiecursor = c.cursor() #de relatiezoeker
