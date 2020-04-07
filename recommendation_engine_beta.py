@@ -1,5 +1,5 @@
 import psycopg2, sys, json, os
-from progress.bar import Bar
+# from progress.bar import Bar
 
 c = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="password", port="2020")
 cursor = c.cursor()
@@ -17,7 +17,7 @@ def nametolist():
             namelist.append(name)
     return namelist
 
-def relatiedicmaker (namelist, relatiedictionary):
+def relatiedicmaker(namelist, relatiedictionary):
     for name in namelist [:100]:
         nummer = 0
         relatielist = namelist #om ervoor te zorgen dat dezelfde product geen relatie wordt

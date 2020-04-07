@@ -9,9 +9,9 @@ def get_cursor():
 
 def get_popular_items():
     cur = get_cursor()
-    cur.execute("SELECT prodid, COUNT(prodid) AS view_count FROM profiles_previously_viewed GROUP BY prodid ORDER BY view_count DESC LIMIT 3;")
+    cur.execute(
+        "SELECT prodid, COUNT(prodid) AS view_count FROM profiles_previously_viewed GROUP BY prodid ORDER BY view_count DESC LIMIT 3;")
     myresult = cur.fetchall()
-
     return myresult
 
 
