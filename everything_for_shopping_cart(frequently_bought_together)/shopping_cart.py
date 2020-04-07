@@ -9,11 +9,11 @@ def shopping_cart(id):
 
     all_results = []
     final_results = []
-    id = "\'" + id + "\'"
+    id2 = "\'" + id + "\'"
 
     for i in range(1, 94):
         compareid = 'productid'+str(i)
-        query = "SELECT * FROM sessions_data_bought_items2 WHERE "+str(compareid)+" = "+str(id)
+        query = "SELECT * FROM sessions_data_bought_items2 WHERE "+str(compareid)+" = "+str(id2)
         cur.execute(query)
         myresult = cur.fetchall()
         if len(myresult) > 0:
