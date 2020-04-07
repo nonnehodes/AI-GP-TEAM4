@@ -7,8 +7,10 @@ cur.execute("DROP TABLE IF EXISTS products CASCADE")
 cur.execute("DROP TABLE IF EXISTS profiles CASCADE")
 cur.execute("DROP TABLE IF EXISTS profiles_previously_viewed CASCADE")
 cur.execute("DROP TABLE IF EXISTS sessions CASCADE")
+cur.execute("DROP TABLE IF EXISTS sessions_data_bought_items CASCADE")
 
 # All product-related tables
+
 
 cur.execute("""CREATE TABLE products
                 (id VARCHAR PRIMARY KEY,
@@ -56,6 +58,10 @@ cur.execute("""CREATE TABLE sessions
                  devicefamily VARCHAR,
                  devicetype d_type,
                  FOREIGN KEY (profid) REFERENCES profiles (id));""")
+
+cur.execute("""CREATE TABLE sessions_data_bought_items
+                (sessionid VARCHAR DEFAULT Null, 
+                products VARCHAR DEFAULT Null);""")
 
 c.commit()
 cur.close()

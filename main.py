@@ -1,6 +1,11 @@
 import psycopg2
 import random
+from collections import Counter, OrderedDict
 
+class OrderedCounter(Counter, OrderedDict):
+    pass
+
+# Referentie: https://codefisher.org/catch/blog/2015/06/16/how-create-ordered-counter-class-python/
 
 def get_cursor():
     cur = psycopg2.connect(host="localhost", database="HUwebshop", user="postgres", password="Muis1234",
@@ -75,13 +80,27 @@ def collaberativefiltering():
     print("collaberativefiltering results: " + str(similar_items))
 
 
-def frequentluBoughtTogether():
-    all_sessions_list = get_all_sessions()
-    similar_items = get_similar(all_sessions_list)
-    print('Frequently bought together results: {}'.format(str(similar_items)))
+def frequentlyBoughtTogether(basket):
+    output = []
+    for prod_id in basket:
+        cur = get_cursor()
+        product_wildcard = '%' + str(prod_id) + '%'
+        cur.execute("""SELECT products FROM sessions_data_bought_items WHERE products LIKE %s""", (product_wildcard,))
+        results = cur.fetchall()
+        all_found_products = []
+
+        for hits in results:
+            all_found_products += hits[0].split(', ')
+
+        # if top 3 contain shared places ie. two products with the same no. of occurences). Will return more than 3 matches
+        top_matches = [x[0] for x in Counter(all_found_products).most_common(3)]
+        if prod_id in top_matches:
+            top_matches.remove(prod_id)
+        output.append([prod_id] + top_matches)
+    return output
 
 
 if __name__ == "__main__":
-    contentfiltering()
-    collaberativefiltering()
-    frequentluBoughtTogether()
+    # contentfiltering()
+    # collaberativefiltering()
+    print(frequentlyBoughtTogether(['31695', '41932'])) # example

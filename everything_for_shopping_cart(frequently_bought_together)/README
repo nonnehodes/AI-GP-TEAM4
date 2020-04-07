@@ -1,5 +1,0 @@
-4 files:
-1. Get_data_from_mongo_to_csv.py: Gets and filters all the data from mongodb and puts it in a csv file, every row in the csvfile contains every item bought in a single session
-2. sessions_data_bought_items2.csv: The output of script 1
-3. Make_table_bought_together.py: creates and fills a table in SQL with the csv file as input.
-4. shopping_cart.py: A script that the front-end uses, this script get all the data from PgAdmin and filters it to return the correct products, this data has been inserted by the previous files,
