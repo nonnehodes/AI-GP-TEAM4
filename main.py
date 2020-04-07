@@ -40,7 +40,7 @@ def get_all_sessions():
 def get_similar(checkout_list):
     list_similar_items_id = []
     amount_of_values = len(checkout_list[0])
-    for checkout_item in checkout_list[:5]:
+    for checkout_item in checkout_list[:5]: #ik heb hier even :5 gedaan anders duurde het ongelooflijk lang (kan weg)
         compare_list = checkout_list
         compare_list.remove(checkout_item)
         # Always starts with id for primary key
