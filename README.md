@@ -5,8 +5,9 @@ Groep project
 1) Download zip file: AI-GP-TEAM4-Dataset.zip
 2) In PGAdmin create a database: HUwebshop (case sensitive)
 3) Place .csv files in /data/ folder in project root
-4) Run /db/create_db.py
-5) Run /db/migrate.py
-6) Extra: right-click on /data/ folder > Mark Directory As > Excluded
+4) In create_db.py, load_all_data.py and main.py set mongo and postgres settings to own config
+5) Run /db/create_db.py
+6) Run /db/load_all_data.py
+7) Extra: right-click on /data/ folder > Mark Directory As > Excluded
 ALL DONE
 
