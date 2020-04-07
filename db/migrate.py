@@ -3,7 +3,7 @@ import psycopg2
 c = psycopg2.connect("host=localhost port=5433 dbname=HUwebshop user=postgres password=Muis1234")  # TODO: edit this.
 cur = c.cursor()
 
-filenames = ['products', 'profiles', 'profiles_previously_viewed', 'sessions']
+filenames = ['products', 'profiles', 'profiles_previously_viewed', 'sessions', 'sessions_prodid.csv']
 
 for filename in filenames:
     path = '../data/'
