@@ -21,7 +21,7 @@ def shopping_cart(id):
                 for item in items:
                     if item == None:
                         break
-                    if item == id or len(item) > 10:
+                    if item == id or len(item) > 20:
                         continue
                     all_results.append(item)
 
