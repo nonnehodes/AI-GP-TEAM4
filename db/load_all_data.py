@@ -4,16 +4,20 @@ import csv
 connection = psycopg2.connect("host=localhost port=5433 dbname=HUwebshop user=postgres password=Muis1234")
 cur = connection.cursor()
 
-def insert_items_table():
-    path = '../data/sessions_data_bought_items.csv'
+def insert_items_table():          
+    cur.execute("DELETE FROM sessions_data_bought_items;")
     with open(path) as csvfile:
         print("Copying {}...".format(path))
         csvReader = csv.reader(csvfile)
         for row in csvReader:
-            session_id = row[0]
-            products = ', '.join(row[1:])
-            cur.execute("INSERT INTO sessions_data_bought_items VALUES (%s, %s)", (session_id, products))
-            connection.commit()
+            try:
+                if len(row) < 94:
+                    values = tuple(row)
+                    sql = "INSERT INTO sessions_data_bought_items VALUES {}".format(values)
+                    cur.execute(sql)
+                    connection.commit()
+            except:
+                continue
 
 filenames = ['products', 'profiles', 'profiles_previously_viewed', 'sessions']
 
