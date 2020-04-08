@@ -8,8 +8,13 @@ cur.execute("DROP TABLE IF EXISTS profiles CASCADE")
 cur.execute("DROP TABLE IF EXISTS profiles_previously_viewed CASCADE")
 cur.execute("DROP TABLE IF EXISTS sessions CASCADE")
 cur.execute("DROP TABLE IF EXISTS sessions_data_bought_items CASCADE")
+cur.execute("DROP TABLE IF EXISTS sessions_data_bought_items_single CASCADE")
 cur.execute("DROP TABLE IF EXISTS similar_products CASCADE")
 # All product-related tables
+
+cur.execute("""CREATE TABLE sessions_data_bought_items_single
+                (sessionid VARCHAR DEFAULT Null, 
+                products VARCHAR DEFAULT Null);""")
 
 cur.execute("""CREATE TABLE similar_products
                 (id VARCHAR PRIMARY KEY,
