@@ -7,8 +7,7 @@ class OrderedCounter(Counter, OrderedDict):
 # Referentie: https://codefisher.org/catch/blog/2015/06/16/how-create-ordered-counter-class-python/
 
 def get_cursor():
-    cur = psycopg2.connect(host="localhost", database="postgres", user="postgres", password="janneke",
-                           port="2020").cursor()
+    cur = psycopg2.connect("host=localhost port=2020 dbname=HUwebshop user=postgres password=janneke").cursor()
     return cur
 
 
@@ -81,6 +80,27 @@ def get_similar(checkout_list):
                         break
     return list_similar_items_id
 
+def get_prodid(profidlist):
+    prodidslist = []
+    for Id in profidlist:
+        prodidlist = []
+        prodidlist.append(Id[0])
+
+        cur = get_cursor()
+        cur.execute("SELECT prodid FROM profiles_previously_viewed WHERE profid LIKE '" + str(Id[1]) + "' ; ")
+        all_profiles_list = cur.fetchall()
+        id = list(all_profiles_list[0])
+        prodidlist = prodidlist + id
+        cur.execute("SELECT prodid FROM profiles_previously_viewed WHERE profid LIKE '" + str(Id[2]) + "' ; ")
+        all_profiles_list = cur.fetchall()
+        id = list(all_profiles_list[0])
+        prodidlist = prodidlist + id if id[0] not in prodidlist else prodidlist
+        cur.execute("SELECT prodid FROM profiles_previously_viewed WHERE profid LIKE '" + str(Id[3]) + "' ; ")
+        all_profiles_list = cur.fetchall()
+        id = list(all_profiles_list[0])
+        prodidlist = prodidlist + id  if id[0] not in prodidlist else prodidlist
+        prodidslist.append(prodidlist)
+    return prodidslist
 
 def contentfiltering():
     all_products_list = get_all_products()  # gives all products in a list
@@ -92,11 +112,11 @@ def contentfiltering():
 
 def collaberativefiltering():
     all_profiles_list = get_all_profiles()  # gives all profiles in a list
-    similar_items = get_similar(all_profiles_list)  # gives similar profiles as ID in a list
+    profidsimilar_items = get_similar(all_profiles_list)# gives similar profiles as ID in a list
+    prodidsimilar_items = get_prodid(profidsimilar_items)
     csvname = "rec-vw_colla"
-    csvfilewriter(similar_items, csvname)
-    print("collaberativefiltering results: " + str(similar_items))
-
+    csvfilewriter(prodidsimilar_items, csvname)
+    print("collaberativefiltering results: " + str(prodidsimilar_items))
 
 # def frequentlyBoughtTogether(basket):
 #     output = []
