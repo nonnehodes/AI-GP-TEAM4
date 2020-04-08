@@ -10,7 +10,15 @@ cur.execute("DROP TABLE IF EXISTS sessions CASCADE")
 cur.execute("DROP TABLE IF EXISTS sessions_data_bought_items CASCADE")
 cur.execute("DROP TABLE IF EXISTS sessions_data_bought_items_single CASCADE")
 cur.execute("DROP TABLE IF EXISTS similar_products CASCADE")
+cur.execute("DROP TABLE IF EXISTS popular_products CASCADE")
 # All product-related tables
+
+cur.execute("""CREATE TABLE popular_products
+                (id VARCHAR,
+                 prodid1 VARCHAR,
+                 prodid2 VARCHAR,
+                 prodid3 VARCHAR,
+                 prodid4 VARCHAR);""")
 
 cur.execute("""CREATE TABLE sessions_data_bought_items_single
                 (sessionid VARCHAR DEFAULT Null, 
