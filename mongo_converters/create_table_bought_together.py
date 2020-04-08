@@ -16,9 +16,9 @@ def create_table_sessions_prodid():
 
 
 def insert_items_table():
-    connection = psycopg2.connect("host=localhost port=5433 dbname=HUwebshop user=postgres password=Muis1234")
+    connection = psycopg2.connect("host=localhost port=2020 dbname=postgres user=postgres password=janneke")
     cur = connection.cursor()
-    path = '../data/essions_data_bought_items.csv'
+    path = 'sessions_data_bought_items.csv'
     with open(path) as csvfile:
         print("Copying {}...".format(path))
         csvReader = csv.reader(csvfile)
@@ -30,5 +30,5 @@ def insert_items_table():
 
 
 if __name__ == "__main__":
-    create_table_sessions_prodid()
+    # create_table_sessions_prodid()
     insert_items_table()

@@ -126,10 +126,10 @@ def frequentlyBoughtTogether():
     csvfilewriter(similar_items, csvname)
     return similar_items
 
-def combicontentcollaboratief():
-    with open("rec-content.csv", "r") as outfile:
-        json.dump(similarlist, outfile) #leest code contentcsv file voor category
-                                        #leest code collaboratief file voor
+# def combicontentcollaboratief():
+#     with open("rec-content.csv", "r") as outfile:
+#         json.dump(similarlist, outfile) #leest code contentcsv file voor category
+#                                         #leest code collaboratief file voor
 
 def csvfilewriter(similarlist, csvname):
     with open(str(csvname) + ".csv", "w") as outfile:
