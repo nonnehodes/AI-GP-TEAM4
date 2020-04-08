@@ -5,9 +5,9 @@ def create_table_sessions_prodid():
     connection = psycopg2.connect("dbname=Huwebshop user=postgres password=1qaz2wsx3edc")
     cur = connection.cursor()
 
-    cur.execute("DROP TABLE IF EXISTS sessions_data_bought_items2 CASCADE")
+    cur.execute("DROP TABLE IF EXISTS sessions_data_bought_items CASCADE")
 
-    cur.execute("""CREATE TABLE sessions_data_bought_items2
+    cur.execute("""CREATE TABLE sessions_data_bought_items
                 (sessionid VARCHAR DEFAULT Null, 
                 productid1 VARCHAR DEFAULT Null, 
                 productid2 VARCHAR DEFAULT Null, 
@@ -110,9 +110,9 @@ def create_table_sessions_prodid():
 def insert_items_table():
     connection = psycopg2.connect("dbname=Huwebshop user=postgres password=1qaz2wsx3edc")
     cur = connection.cursor()
-    path = 'sessions_data_bought_items2.csv'
+    path = 'sessions_data_bought_items.csv'
 
-    cur.execute("DELETE FROM sessions_data_bought_items2;")
+    cur.execute("DELETE FROM sessions_data_bought_items;")
     with open(path) as csvfile:
         print("Copying {}...".format(path))
         csvReader = csv.reader(csvfile)
@@ -120,7 +120,7 @@ def insert_items_table():
             try:
                 if len(row) < 94:
                     values = tuple(row)
-                    sql = "INSERT INTO sessions_data_bought_items2 VALUES {}".format(values)
+                    sql = "INSERT INTO sessions_data_bought_items VALUES {}".format(values)
                     cur.execute(sql)
                     connection.commit()
             except:
