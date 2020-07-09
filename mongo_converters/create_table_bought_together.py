@@ -2,7 +2,7 @@ import psycopg2
 import csv
 
 def create_table_sessions_prodid():
-    connection = psycopg2.connect("host=localhost port=5433 dbname=HUwebshop user=postgres password=Muis1234")
+    connection = psycopg2.connect("host=localhost port=5432 dbname=HUwebshop user=postgres password=quaiakD@001")
     cur = connection.cursor()
 
     cur.execute("DROP TABLE IF EXISTS sessions_data_bought_items CASCADE")
@@ -16,7 +16,7 @@ def create_table_sessions_prodid():
 
 
 def insert_items_table():
-    connection = psycopg2.connect("host=localhost port=2020 dbname=postgres user=postgres password=janneke")
+    connection = psycopg2.connect("host=localhost port=5432 dbname=HUwebshop user=postgres password=quaiakD@001")
     cur = connection.cursor()
     path = 'sessions_data_bought_items.csv'
     with open(path) as csvfile:
