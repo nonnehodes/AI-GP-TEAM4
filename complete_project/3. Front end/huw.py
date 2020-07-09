@@ -13,7 +13,9 @@ import FrontEnd_recs
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
 
-
+```This is the script used to get the front end running, this script uses the script FrontEnd_recs for 
+its recommendations, the script is called at the fuctions: recommendations_cat_page, recommendations_shoppingcart, 
+recommendations. This script takes care of how the front end is run and shown to the user and uses mongoDB mySQL as a source for its data.```
 
 
 class HUWebshop(object):
@@ -235,6 +237,10 @@ class HUWebshop(object):
         service. At the moment, it only transmits the profile ID and the number
         of expected recommendations; to have more user information in the REST
         request, this function would have to change."""
+        
+        ```product_page_rec() in FrontEnd_recs is called here to obtain the correct recommendations for a
+        products page, if it doesn't return enough items other recommendation engines are used```
+        
         resp = requests.get(self.recseraddress+"/"+session['profile_id']+"/"+str(count))
         if resp.status_code == 200:
             recs = FrontEnd_recs.product_page_rec(productid)
@@ -251,6 +257,9 @@ class HUWebshop(object):
         return []
 
     def recommendations_shoppingcart(self, count, productid='0000'):
+    	```shopping_cart_rec() in FrontEnd_recs is called here to obtain the correct recommendations for a
+        product in the shopping cart, if it doesn't return enough items other recommendation engines are used```
+    
         resp = requests.get(self.recseraddress + "/" + session['profile_id'] + "/" + str(count))
         if resp.status_code == 200 and productid != '0000':
             recs = FrontEnd_recs.shopping_cart_rec(productid)
@@ -267,6 +276,9 @@ class HUWebshop(object):
         return []
 
     def recommendations_cat_page(self, count, cat='Baby & kind'):
+    	```pop_prods_rec() in FrontEnd_recs is called here to obtain the correct recommendations for a
+        category's page, if it doesn't return enough items 4 random items will be recommended.```
+    	
         resp = requests.get(self.recseraddress + "/" + session['profile_id'] + "/" + str(count))
         if resp.status_code == 200:
             recs = FrontEnd_recs.pop_prods_rec(cat)
