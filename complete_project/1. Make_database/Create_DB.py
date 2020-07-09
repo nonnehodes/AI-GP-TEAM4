@@ -1,16 +1,51 @@
 import psycopg2
 
-c = psycopg2.connect("dbname=Huwebshop user=postgres password=1qaz2wsx3edc") #TODO: edit this.
-cur = c.cursor()
+```This program makes all the tables for the database, this database is used for when recommending items in the webshop,
+run this program before running the recommendation engines.```
 
+
+c = psycopg2.connect("host=localhost port=5433 dbname=HUwebshop user=postgres password=Muis1234") #TODO: edit this.
+cur = c.cursor()  # Change this with your own database details.
+
+
+```eliminates all existing tables with the same name in order to start fresh: ```
 cur.execute("DROP TABLE IF EXISTS products CASCADE")
 cur.execute("DROP TABLE IF EXISTS profiles CASCADE")
 cur.execute("DROP TABLE IF EXISTS profiles_previously_viewed CASCADE")
 cur.execute("DROP TABLE IF EXISTS sessions CASCADE")
 cur.execute("DROP TABLE IF EXISTS sessions_data_bought_items CASCADE")
+cur.execute("DROP TABLE IF EXISTS sessions_data_bought_items_single CASCADE")
 cur.execute("DROP TABLE IF EXISTS similar_products CASCADE")
-# All product-related tables
+cur.execute("DROP TABLE IF EXISTS popular_products CASCADE")
 
+# All product-related tables
+```Makes the table for popular products, used for the popular products engine```
+cur.execute("""CREATE TABLE popular_products
+                (id VARCHAR,
+                 prodid1 VARCHAR,
+                 prodid2 VARCHAR,
+                 prodid3 VARCHAR,
+                 prodid4 VARCHAR);""")
+
+```Makes the table for containing an item bought per session```
+cur.execute("""CREATE TABLE sessions_data_bought_items_single
+                (sessionid VARCHAR DEFAULT Null, 
+                products VARCHAR DEFAULT Null);""")
+
+```Makes the table for 4 similar items per product```
+cur.execute("""CREATE TABLE similar_products
+                (id VARCHAR PRIMARY KEY,
+                 sim_id_1 VARCHAR,
+                 sim_id_2 VARCHAR,
+                 sim_id_3 VARCHAR,
+                 sim_id_4 VARCHAR,
+                 FOREIGN KEY (sim_id_1) REFERENCES products(id),
+                 FOREIGN KEY (sim_id_2) REFERENCES products(id),
+                 FOREIGN KEY (sim_id_3) REFERENCES products(id),
+                 FOREIGN KEY (sim_id_4) REFERENCES products(id));""")
+
+
+```Makes the table for ontaining all products and their details```
 cur.execute("""CREATE TABLE products
                 (id VARCHAR PRIMARY KEY,
                  name VARCHAR,
@@ -26,26 +61,14 @@ cur.execute("""CREATE TABLE products
                  deal VARCHAR,
                  description VARCHAR);""")
 
-cur.execute("""CREATE TABLE similar_products
-                (id VARCHAR PRIMARY KEY,
-                 sim_id_1 VARCHAR,
-                 sim_id_2 VARCHAR,
-                 sim_id_3 VARCHAR,
-                 sim_id_4 VARCHAR,
-                 FOREIGN KEY (sim_id_1) REFERENCES products(id),
-                 FOREIGN KEY (sim_id_2) REFERENCES products(id),
-                 FOREIGN KEY (sim_id_3) REFERENCES products(id),
-                 FOREIGN KEY (sim_id_4) REFERENCES products(id));""")
-
-
-
 # All profile-related tables
-
+```Makes the table for containing each profile with their details```
 cur.execute("""CREATE TABLE profiles
                 (id VARCHAR PRIMARY KEY,
                  latestactivity TIMESTAMP,
                  segment VARCHAR);""")
 
+```Makes the table for containg the information of what product where viewed per profile```
 cur.execute("""CREATE TABLE profiles_previously_viewed
                 (profid VARCHAR,
                  prodid VARCHAR,
@@ -58,6 +81,7 @@ try:
 except Exception as e:
     print(e)
 
+```Makes the table for containing each session and their details```
 cur.execute("""CREATE TABLE sessions
                 (id VARCHAR PRIMARY KEY,
                  profid VARCHAR,
@@ -72,6 +96,8 @@ cur.execute("""CREATE TABLE sessions
                  FOREIGN KEY (profid) REFERENCES profiles (id));""")
 
 
+```Makes the table for containing wich items where bought together in a session, enough space but if fewer than 93 items
+are bought in a session, the slot gets filled with NULL```
 cur.execute("""CREATE TABLE sessions_data_bought_items
                 (sessionid VARCHAR DEFAULT Null, 
                 productid1 VARCHAR DEFAULT Null, 
